@@ -1,5 +1,5 @@
-export interface SearchResultDisplayProps {
-    result: SearchResult;
+export interface SearchResultsProps {
+    result: string;
     isLoading: boolean;
     error: string;
   }
