@@ -1,0 +1,12 @@
+# FastAPI for creating REST API
+fastapi==0.68.1
+
+# Pydantic for data validation and serialization
+pydantic==1.10.2
+
+
+# uvicorn for ASGI server
+uvicorn==0.15.0
+
+# JSON parsing
+ijson==3.2.3
