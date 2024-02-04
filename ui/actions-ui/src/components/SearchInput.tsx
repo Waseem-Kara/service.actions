@@ -1,7 +1,7 @@
 import React from 'react';
 import { SearchInputProps } from '../interfaces';
 
-export const SearchInput: React.FC<SearchInputProps> = ({ label, value, onChange, onSearch, isLoading, disabled }) => {
+export const SearchInput: React.FC<SearchInputProps> = ({ label, value, onChange, onSearch, isLoading }) => {
   return (
     <div>
       <label>{label}: </label>
@@ -9,9 +9,9 @@ export const SearchInput: React.FC<SearchInputProps> = ({ label, value, onChange
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        disabled={isLoading || disabled}
+        disabled={isLoading}
       />
-      <button onClick={onSearch} disabled={isLoading || !value || disabled}>Search</button>
+      <button onClick={onSearch} disabled={isLoading || !value}>Search</button>
     </div>
   );
 };

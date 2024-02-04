@@ -4,5 +4,4 @@ export interface SearchInputProps {
   onChange: (value: string) => void;
   onSearch: () => void;
   isLoading: boolean;
-  disabled: boolean;
   }

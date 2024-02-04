@@ -1,78 +1,88 @@
 import React, { useState } from 'react';
 import { SearchInput } from './components/SearchInput';
 import { SearchResults } from './components/SearchResults';
-import { ApiService } from './services/ApiService';
+import { ActionsService } from './services/ActionsService';
+
+type ApiResponse = {
+  actionId?: string;
+  codewords?: string[];
+  error?: string;
+};
 
 const App = () => {
-  const [codeword, setCodeword] = useState('');
-  const [actionId, setActionId] = useState('');
-  const [result, setResult] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [codeword, setCodeword] = useState<string>('');
+  const [actionId, setActionId] = useState<string>('');
+  const [result, setResult] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
 
-  const apiService = new ApiService();
+  const actionsService = new ActionsService();
 
-  const handleApiResponse = (response) => {
-    if (response.error) {
-      setError(response.error);
-    } else {
-      setResult(`Result: ${JSON.stringify(response)}`);
-    }
+  const handleApiResponse = (response: ApiResponse): void => {
+    setError(response.error || '');
+    setResult(response.actionId ?
+       `Associated Action ID: ${response.actionId}` :
+        response.codewords ?
+         `Associated Codeword(s): ${response.codewords.join(', ')}` :
+          'No results found.');
     setIsLoading(false);
   };
 
-  const searchByCodeword = async () => {
+  const searchByCodeword = async (): Promise<void> => {
     if (isNaN(Number(codeword)) || codeword.trim() === '') {
       setError('Codeword must be a non-empty integer.');
       return;
     }
     setIsLoading(true);
-    setResult('');
-    setError('');
+    clearResults();
     try {
-      const response = await apiService.getActionIdByCodeword(parseInt(codeword));
+      const response = await actionsService.getActionIdByCodeword(parseInt(codeword));
       handleApiResponse(response);
-    } catch (err) {
-      setError('An unexpected error occurred. Please try again.');
-      setIsLoading(false);
+    } catch (error) {
+      handleError();
     }
   };
 
-  const searchByActionId = async () => {
+  const searchByActionId = async (): Promise<void> => {
     if (actionId.trim() === '') {
       setError('Action ID must be a non-empty string.');
       return;
     }
     setIsLoading(true);
+    clearResults();
+    try {
+      const response = await actionsService.getCodewordsByActionId(actionId);
+      handleApiResponse(response);
+    } catch (error) {
+      handleError();
+    }
+  };
+
+  const clearResults = (): void => {
     setResult('');
     setError('');
-    try {
-      const response = await apiService.getCodewordByActionId(actionId);
-      handleApiResponse(response);
-    } catch (err) {
-      setError('An unexpected error occurred. Please try again.');
-      setIsLoading(false);
-    }
+  };
+
+  const handleError = (): void => {
+    setError('An unexpected error occurred. Please try again.');
+    setIsLoading(false);
   };
 
   return (
     <div className="App">
-      <h1>CodeWord Lookup</h1>
       <SearchInput
-        label="Codeword (Integer)"
+        label="Codeword (number)"
         value={codeword}
-        onChange={(value) => { setCodeword(value); setActionId(''); }} // Clear other field to enforce single input
+        onChange={setCodeword}
         onSearch={searchByCodeword}
         isLoading={isLoading}
-        disabled={!!actionId} // Disable when actionId input is not empty
       />
       <SearchInput
-        label="Action ID (String)"
+        label="Action ID (string)"
         value={actionId}
-        onChange={(value) => { setActionId(value); setCodeword(''); }} // Clear other field to enforce single input
+        onChange={setActionId}
         onSearch={searchByActionId}
         isLoading={isLoading}
-        disabled={!!codeword} // Disable when codeword input is not empty
       />
       <SearchResults
         result={result}
