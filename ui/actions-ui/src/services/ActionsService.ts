@@ -1,9 +1,8 @@
 import axios from 'axios';
 import { IActionsService } from './IActionsService';
-import { ActionsServiceApiResponse } from '../interfaces';
 
 export class ActionsService implements IActionsService {
-  private API_BASE_URL = 'http://localhost:8000';
+  private API_BASE_URL = 'http://localhost:3000';
 
   async getActionIdByCodeword(codeword: number): Promise<{ actionId?: string, error?: string }> {
     try {
