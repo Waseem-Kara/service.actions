@@ -46,3 +46,34 @@ Once the FastAPI backend server is up and running, you can explore and test the 
 The web UI, developed with React and TypeScript. After starting the React development server, you can access the web UI at:
 
 - [http://localhost:8000](http://localhost:8000).
+
+## API Improvements
+
+- **Data Storage**:
+  - Store CSV files in Blob Storage or Cosmos DB for efficient no SQL data management.
+
+- **Error Handling**:
+  - Implement global error handling to catch and manage exceptions systematically.
+
+- **Domain Layer**:
+  - Introduce a domain layer to encapsulate business logic for complex operations like insertions and updates.
+
+- **Containerization**:
+  - Add Docker support to ensure consistency across different environments and provide easier deployment.
+
+- **Testing**:
+  - Increase test coverage to ensure reliability and reduce bugs.
+
+- **Security**:
+  - Implement authentication and permission controls to safeguard access to the API.
+
+## UI Improvements
+
+- **Code Organization**:
+  - Utilize hooks for reusability and to declutter `App.tsx` by extracting reusable code.
+
+- **Error Handling**:
+  - Enhance error handling on the UI to display user-friendly messages, improving the overall user experience.
+
+- **User Experience (UX)**:
+  - Focus on improving the UX to make the interface more intuitive and engaging for users.
