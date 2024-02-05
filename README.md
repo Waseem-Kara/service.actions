@@ -19,13 +19,16 @@ To get the platform up and running on your local machine, follow these steps:
    ```bash
    git clone https://github.com/Waseem-Kara/service.actions.git
 
-2. **Run the FastAPI backend**:
+2. **Run start_projects.bat**:
+You can run this bat file which will run both projects or proceed with step 3 and 4 for manual startup.
+
+3. **Run the FastAPI backend**:
     ```bash
     cd actions_api
     pip install -r requirements.txt
-    python -m uvicorn app.main:app
+    python app\main.py
 
-3. **Launch the React frontend**:
+4. **Launch the React frontend**:
     ```bash
     cd ui/actions-ui
     npm install
